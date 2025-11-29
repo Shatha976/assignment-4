@@ -35,77 +35,9 @@ const observer = new IntersectionObserver((entries)=>{
 document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
 
 // ============================
-// 4️⃣ NEW - Unsplash API Integration (Task 2)
+// 4️⃣ GitHub API is our API Integration for Task 2
+// (Implemented in section 9 below)
 // ============================
-const heroSection = document.getElementById('hero-section');
-const refreshBgBtn = document.getElementById('refresh-bg-btn');
-
-// Curated list of high-quality tech/coding Unsplash photo IDs
-const unsplashPhotoIds = [
-  'cvBBO4PzWPg', // Laptop on desk
-  'iar-afB0QQw', // Code on screen
-  'jLwVAUtLOAQ', // Workspace setup
-  'QLqNalPe0RA', // Dark code editor
-  'tZc3vjPCk-Q', // Multiple monitors
-  'Nyvq2juw4_o', // Minimal workspace
-  'ZV_64LdGoao', // Coffee and laptop
-  'hGV2TfOh0ns', // Programming
-  'Im7lZjxeLhg', // Macbook
-  'XJXWbfSo2f0'  // Developer desk
-];
-
-let currentPhotoIndex = 0;
-
-function loadUnsplashBackground() {
-  try {
-    // Get next photo ID from our curated list
-    const photoId = unsplashPhotoIds[currentPhotoIndex % unsplashPhotoIds.length];
-    currentPhotoIndex++;
-    
-    // Use direct Unsplash photo URL (more reliable than random)
-    const imageUrl = `https://images.unsplash.com/photo-${photoId}?w=1920&q=80&fit=crop`;
-    
-    // Create a new image to preload it
-    const img = new Image();
-    img.onload = function() {
-      heroSection.style.backgroundImage = `url(${imageUrl})`;
-      console.log(`✅ Background image ${currentPhotoIndex} loaded successfully`);
-    };
-    img.onerror = function() {
-      console.log('⚠️ Image failed to load, trying alternative method...');
-      // Alternative: Use Unsplash Source with cache buster
-      const altUrl = `https://source.unsplash.com/1920x1080/?technology,coding&sig=${Date.now()}`;
-      heroSection.style.backgroundImage = `url(${altUrl})`;
-    };
-    img.src = imageUrl;
-    
-  } catch (error) {
-    console.log('📸 Using default gradient background');
-  }
-}
-
-// Load background on page load
-if (heroSection) {
-  // Initial load
-  loadUnsplashBackground();
-  
-  // Refresh button to get new background
-  if (refreshBgBtn) {
-    refreshBgBtn.addEventListener('click', () => {
-      refreshBgBtn.textContent = '🔄 Loading...';
-      refreshBgBtn.disabled = true;
-      
-      // Load next image
-      loadUnsplashBackground();
-      
-      // Reset button after short delay
-      setTimeout(() => {
-        refreshBgBtn.textContent = '🔄 Change Background';
-        refreshBgBtn.disabled = false;
-      }, 1000);
-    });
-  }
-}
 
 // ============================
 // 5️⃣ NEW - Session Timer (Task 3)
@@ -134,6 +66,7 @@ const nameModal = document.getElementById('name-modal');
 const nameInput = document.getElementById('visitor-name-input');
 const saveNameBtn = document.getElementById('save-name-btn');
 const skipNameBtn = document.getElementById('skip-name-btn');
+const resetNameBtn = document.getElementById('reset-name-btn');
 const greetingTitle = document.getElementById('greeting-title');
 
 // Check if visitor name exists in localStorage
@@ -171,6 +104,32 @@ if (skipNameBtn) {
     if (nameModal) {
       nameModal.classList.add('hidden');
     }
+  });
+}
+
+// Reset name button - NEW!
+if (resetNameBtn) {
+  resetNameBtn.addEventListener('click', () => {
+    // Clear the stored name
+    localStorage.removeItem('visitorName');
+    
+    // Reset greeting to default
+    if (greetingTitle) {
+      greetingTitle.textContent = "Hi, I'm Shatha";
+    }
+    
+    // Clear the input field
+    if (nameInput) {
+      nameInput.value = '';
+    }
+    
+    // Show the modal again
+    if (nameModal) {
+      nameModal.classList.remove('hidden');
+    }
+    
+    // Show notification
+    showNotification('👋 Name reset! You can now enter a new name.');
   });
 }
 
