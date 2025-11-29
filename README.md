@@ -98,6 +98,3 @@ Full AI breakdown is documented in `docs/ai-usage-report.md`.
 
 ---
 
-## 📜 License
-Created for SWE — Assignment 3 (Fall 2025).  
-Author: **Shatha Alharbi**
