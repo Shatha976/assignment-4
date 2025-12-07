@@ -334,3 +334,31 @@ window.addEventListener('load', () => {
     }
   }, 0);
 });
+
+// ============================
+// 1️⃣1️⃣ Timeline Progress Bar Animation (NEW!)
+// ============================
+const progressObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const progressBars = entry.target.querySelectorAll('.progress-fill');
+      progressBars.forEach(bar => {
+        const targetWidth = bar.getAttribute('data-progress');
+        // Animate the progress bar
+        setTimeout(() => {
+          bar.style.width = targetWidth + '%';
+        }, 100);
+      });
+      // Stop observing once animated
+      progressObserver.unobserve(entry.target);
+    }
+  });
+}, {
+  threshold: 0.3,
+  rootMargin: '0px 0px -100px 0px'
+});
+
+// Observe all timeline items
+document.querySelectorAll('.timeline-item').forEach(item => {
+  progressObserver.observe(item);
+});
