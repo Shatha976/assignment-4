@@ -103,7 +103,7 @@ git clone https://github.com/Shatha976/assignment-4.git
 
 ## 🌐 Live Deployment
 
-This portfolio is deployed and accessible at: 
+This portfolio is deployed and accessible at: https://shatha976.github.io/assignment-4/
 
 ### Deployment Platform
 - **GitHub Pages** 
